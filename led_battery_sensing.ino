@@ -18,26 +18,26 @@ int led2 = 3;
 int led3 = 4;
 int led4 = 5;
 // for the 7 segment display
-int pinA = 9;
-int pinB = 20; //fix this guy
+int pinA = A1;
+int pinB = 8;                                                                                                                                                                                                                                                                            ; //fix this guy
 int pinC = 11;
-int pinD = 13;
-int pinE = A0;
-int pinF = 8;
-int pinG = 10;
+int pinD = 10;
+int pinE = 9;
+int pinF = 6;
+int pinG = 12;
 // for choosing which digit
-int D1 = 12;
+int D1 = 13;
 int D2 = 7;
 // inputs for the switches, one for the tens place and one for the ones place
-int down = A1;
+int down = A3;
 int up = A2;
 // starting states for the switches
 int sdown = LOW;
 int sup = LOW;
 // this is the number displayed
-long number = 24;
+int number = 00;
 
-int del = 1; //used for fine tuning the display code
+int del = 5; //used for fine tuning the display code
 
 void setup() {
   // initialize everything
@@ -73,21 +73,23 @@ void loop() {
   delay(del);//delay 5ms
 
 
-
-
+  
   if (number>100){
     number = 0;
   }
+  if (number<0){
+    number = 100;
+  }
 
-  if(sdown != digitalRead(up)){
-    number += 5;
+  if(sup != digitalRead(up)){
+    number += 1;
     sup = digitalRead(up);
   }
 
-  if(sdown != digitalRead(down)){
-    number -= 5;
-    sdown = digitalRead(down);
-  }
+   if(sdown != digitalRead(down)){
+     number -= 1;
+     sdown = digitalRead(down);
+   }
 
 
   turnonleds();
@@ -103,18 +105,19 @@ void turnonleds(){
   digitalWrite(led4, LOW);
 
 
-  if(number >= 0){
+  if(number >= 25){
     digitalWrite(led1, HIGH);
   }
-  if(number >= 25){
+  if(number >= 50){
     digitalWrite(led2, HIGH);
   }
-  if(number >= 50){
+  if(number >= 75){
     digitalWrite(led3, HIGH);
   }
-  if(number >= 75){
+  if(number >= 95){
     digitalWrite(led4, HIGH);
   }
+  
 
 }
 
