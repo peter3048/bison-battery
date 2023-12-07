@@ -75,10 +75,10 @@ void loop() {
 
   
   if (number>100){
-    number = 0;
+    number = 100;
   }
   if (number<0){
-    number = 100;
+    number = 0;
   }
 
   if(sup != digitalRead(up)){
