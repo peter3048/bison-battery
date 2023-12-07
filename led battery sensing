@@ -1,1 +1,279 @@
+/*
+  Showing number 0-9 on a Common Anode 7-segment LED display (plus the eigth decimal poit)
+    A
+   ---
+F |   | B
+  | G |
+   ---
+E |   | C
+  |   |
+   ---        X Decimal
+    D
+ */
 
+
+// for the four leds.
+int led1 = 2; 
+int led2 = 3;
+int led3 = 4;
+int led4 = 5;
+// for the 7 segment display
+int pinA = 9;
+int pinB = 6;
+int pinC = 11;
+int pinD = 13;
+int pinE = A0;
+int pinF = 8;
+int pinG = 10;
+// for choosing which digit
+int D1 = 12;
+int D2 = 7;
+// inputs for the switches, one for the tens place and one for the ones place
+int down = A1;
+int up = A2;
+// starting states for the switches
+int down = LOW;
+int up = LOW;
+// this is the number displayed
+long number = 00;
+
+int delay = 1; //used for fine tuning the display code
+
+void setup() {
+  // initialize everything
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+
+  pinMode(pinA, OUTPUT);
+  pinMode(pinB, OUTPUT);
+  pinMode(pinC, OUTPUT);
+  pinMode(pinD, OUTPUT);
+  pinMode(pinE, OUTPUT);
+  pinMode(pinF, OUTPUT);
+  pinMode(pinG, OUTPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+ 
+  pinMode(down, INPUT_PULLUP);
+  pinMode(up, INPUT_PULLUP);
+
+}
+
+void loop() {
+  clearLEDs();//clear the 7-segment display screen
+  pickDigit(0);//Light up 7-segment display d1
+  pickNumber((n/10));// get the value of thousand
+  delay(del);//delay 5ms
+
+  clearLEDs();//clear the 7-segment display screen
+  pickDigit(1);//Light up 7-segment display d2
+  pickNumber(n%10);// get the value of hundred
+  delay(del);//delay 5ms
+
+  if(stateT != digitalRead(up)){
+    number += 5;
+    stateT = digitalRead(up);
+  }
+
+  if(stateO != digitalRead(down)){
+    number -= 5;
+    stateT = digitalRead(down);
+  }
+
+
+}
+
+void pickNumber(int x)
+{
+  switch(x)
+  {
+    default: 
+    zero(); 
+    break;
+    case 1: 
+    one(); 
+    break;
+    case 2: 
+    two(); 
+    break;
+    case 3: 
+    three(); 
+    break;
+    case 4: 
+    four(); 
+    break;
+    case 5: 
+    five(); 
+    break;
+    case 6: 
+    six(); 
+    break;
+    case 7: 
+    seven(); 
+    break;
+    case 8: 
+    eight(); 
+    break;
+    case 9: 
+    nine(); 
+    break;
+  }
+}
+
+void clearLEDs() //clear the 7-segment display screen
+{
+  digitalWrite(pinA, LOW);
+  digitalWrite(pinB, LOW);
+  digitalWrite(pinC, LOW);
+  digitalWrite(pinD, LOW);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, LOW);
+  digitalWrite(pinG, LOW);
+//  digitalWrite(pinDP, LOW);
+}
+
+void zero() //the 7-segment led display 0
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, HIGH);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, LOW);
+//  digitalWrite(pinDP, LOW);
+}
+
+void one() //the 7-segment led display 1
+{
+  digitalWrite(pinA, LOW);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, LOW);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, LOW);
+  digitalWrite(pinG, LOW);
+ // digitalWrite(pinDP, LOW);
+}
+
+void two() //the 7-segment led display 2
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, LOW);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, HIGH);
+  digitalWrite(pinF, LOW);
+  digitalWrite(pinG, HIGH);
+// digitalWrite(pinDP, LOW);
+}
+void three() //the 7-segment led display 3
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, LOW);
+  digitalWrite(pinG, HIGH);
+//  digitalWrite(pinDP, LOW);
+}
+
+void four() //the 7-segment led display 4
+{
+  digitalWrite(pinA, LOW);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, LOW);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, HIGH);
+//  digitalWrite(pinDP, LOW);
+}
+
+void five() //the 7-segment led display 5
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, LOW);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, HIGH);
+//  digitalWrite(pinDP, LOW);
+}
+
+void six() //the 7-segment led display 6
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, LOW);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, HIGH);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, HIGH);
+ // digitalWrite(pinDP, LOW);
+}
+
+void seven() //the 7-segment led display 7
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, LOW);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, LOW);
+  digitalWrite(pinG, LOW);
+//  digitalWrite(pinDP, LOW);
+}
+
+void eight() //the 7-segment led display 8
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, HIGH);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, HIGH);
+//  digitalWrite(pinDP, LOW);
+}
+void nine() //the 7-segment led display 9
+{
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
+  digitalWrite(pinC, HIGH);
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinE, LOW);
+  digitalWrite(pinF, HIGH);
+  digitalWrite(pinG, HIGH);
+//  digitalWrite(pinDP, LOW);
+}
+void pickDigit(int x) //
+{
+  //first, turn them all on high. Then we'll push the one we want low (if I have a common anode this will need to be backwards?
+
+  digitalWrite(D1, HIGH);
+  digitalWrite(D2, HIGH);
+  //digitalWrite(D3, HIGH);
+  //digitalWrite(D4, HIGH);
+
+  switch(x)
+  {
+    case 0:
+    digitalWrite(D1, LOW);
+    break;
+    case 1:
+    digitalWrite(D2, LOW);
+    break;
+    /*case 2:
+    digitalWrite(D3, LOW);
+    break;
+    case 3:
+    digitalWrite(D4, LOW);
+    break;
+    */
+  }
+}
