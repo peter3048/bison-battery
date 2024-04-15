@@ -5,10 +5,12 @@ int led4 = 5;
 int led5 = 6;
 int usb = 7;
 int usbc1 = 8;
-//int usbc2 = 9;
+int usbc2 = 9;
 int sensing = A1;
-int button = 9;
+int powertest = A2;
+int button = 10;
 
+float val;
 float analogValue;
 float input_voltage;
 float max_voltage = 5;
@@ -28,14 +30,15 @@ void setup() {
   pinMode(led5, OUTPUT);
   pinMode(usb, OUTPUT);
   pinMode(usbc1, OUTPUT);
-  //pinMode(usbc2, OUTPUT);
+  pinMode(usbc2, OUTPUT);
   pinMode(button, INPUT);
   pinMode(sensing, INPUT);
+  pinMode(powertest, INPUT);
 
 
   digitalWrite(usb, HIGH);
   digitalWrite(usbc1, HIGH);
-  //digitalWrite(usbc2, HIGH);
+  digitalWrite(usbc2, HIGH);
 
 }
 
@@ -43,7 +46,10 @@ void loop() {
   
   if(digitalRead(button) == HIGH){ //make sure this is set right, might need to make it a pull up 
     powerSense();
-    delay(5000); //keep lights on for 5 seconds
+     //keep lights on for 5 seconds
+  }
+  else if(powerIn()){
+    chargeSequence();
   }
   else{
     digitalWrite(led1, LOW);
@@ -52,6 +58,52 @@ void loop() {
     digitalWrite(led4, LOW);
     digitalWrite(led5, LOW);
   }        
+}
+
+boolean powerIn(){ // determines if power is coming in 
+  //see if power is greater than zero, probably need a tie down to keep it zero if no power is coming in. 
+  val = analogRead (powertest);
+  val = (val * 5.0) / 1024.0;
+  return val > 1;
+}
+
+void chargeSequence(){ //blinks the lights to show that the battery is being charged
+  digitalWrite(led1, LOW);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
+  digitalWrite(led4, LOW);
+  digitalWrite(led5, LOW);
+  delay(500);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
+  digitalWrite(led4, LOW);
+  digitalWrite(led5, LOW);
+  delay(500);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, LOW);
+  digitalWrite(led4, LOW);
+  digitalWrite(led5, LOW);
+  delay(500);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, LOW);
+  digitalWrite(led5, LOW);
+  delay(500);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  digitalWrite(led5, LOW);
+  delay(500);
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  digitalWrite(led5, HIGH);
+  delay(500);
 }
 
 void LED_function(int stage) //this sets the leds based on the ouput of power sense
